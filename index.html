@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Uygulama İndir</title>
+<title>Giriş</title>
 
 <style>
 body {
@@ -14,22 +14,39 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 70vh;
+  height: 100vh;
   text-align: center;
 }
 
-.container { padding: 20px; }
-
-.app-icon {
-  width: 120px;
-  height: 120px;
-  border-radius: 25px;
-  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+.popup {
+  background: #111;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 320px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.1);
+  box-sizing: border-box;
 }
 
-.app-name {
-  font-size: 22px;
-  margin: 15px 0 25px;
+.popup input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 6px;
+  border: none;
+  background: #222;
+  color: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.popup input:focus {
+  outline: 1px solid #1e88e5;
+}
+
+.popup-buttons {
+  margin-top: 20px;
 }
 
 button {
@@ -40,45 +57,11 @@ button {
   border-radius: 8px;
   color: white;
   cursor: pointer;
-}
-
-/* POPUP */
-.popup-bg {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup {
-  background: #111;
-  padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 320px;
-  box-shadow: 0 0 15px rgba(255,255,255,0.1);
-}
-
-.popup input {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 6px;
-  border: none;
 }
 
-.popup-buttons {
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.popup-buttons button {
-  flex: 1;
-  margin: 5px;
-  padding: 10px;
+button:hover {
+  background: #1565c0;
 }
 
 .footer {
@@ -91,73 +74,58 @@ button {
     text-align: center;
     padding: 10px 0;
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitb1UQbLj3yUQiJMTylyshVKP8LijiNwWJBQ28pg3abmdmx3IZrfB1fUm-iDze8_fp-ImUwhsK3OUUeFWrAeHW9Y1CNsAoHsKJMh3bURIErwuz8dnx8atYAjhqv0J5bVjpQtVppn7BgoU_ln0ab3m9KYaMJLlmroLNpn0vo5tNf0pNfA/s1600/icon.png" class="app-icon">
-  <div class="app-name">Vardiya</div>
-  <p>v2.4</p>
-  <button onclick="sorIndirme()">Uygulamayı İndir</button>
-</div>
-
-<!-- Popup Alanı -->
-<div class="popup-bg" id="popupBg">
-  <div class="popup" id="popupBox"></div>
+<div class="popup" id="popupBox">
+  <div>Şifreyi Girin</div>
+  <input type="password" id="sifreInput" placeholder="Şifre" onkeypress="handleKeyPress(event)">
+  <div class="popup-buttons">
+    <button onclick="kontrolEt()">Onayla</button>
+  </div>
 </div>
 
 <div class="footer">Powered by 🅲𝕠𝕕𝕖🆂</div>
 
 <script>
-const popupBg = document.getElementById("popupBg");
 const popupBox = document.getElementById("popupBox");
 
-function kapatPopup() {
-  popupBg.style.display = "none";
-}
-
-function gosterMesaj(mesaj) {
+function sifreEkraniniYukle() {
   popupBox.innerHTML = `
-    <div>${mesaj}</div>
-    <div class="popup-buttons">
-      <button onclick="kapatPopup()">Tamam</button>
-    </div>`;
-  popupBg.style.display = "flex";
-}
-
-function sorIndirme() {
-  popupBox.innerHTML = `
-    <div>Dosya indirilsin mi?</div>
-    <div class="popup-buttons">
-      <button onclick="sifreSor()">Evet</button>
-      <button onclick="kapatPopup()">Hayır</button>
-    </div>`;
-  popupBg.style.display = "flex";
-}
-
-function sifreSor() {
-  popupBox.innerHTML = `
-    <div>Şifreyi girin</div>
-    <input type="password" id="sifreInput" placeholder="Şifre">
+    <div>Şifreyi Girin</div>
+    <input type="password" id="sifreInput" placeholder="Şifre" onkeypress="handleKeyPress(event)">
     <div class="popup-buttons">
       <button onclick="kontrolEt()">Onayla</button>
-      <button onclick="kapatPopup()">İptal</button>
     </div>`;
+  document.getElementById("sifreInput").focus();
+}
+
+function handleKeyPress(event) {
+  if (event.key === "Enter") {
+    kontrolEt();
+  }
 }
 
 function kontrolEt() {
   const sifre = document.getElementById("sifreInput").value;
 
   if (sifre === "1453") {
-    kapatPopup();
-    window.location.href = "Vardiya_2.4.apk";
+    window.location.href = "y.html";
   } else {
-    gosterMesaj("Şifre yanlış!");
+    
+    popupBox.innerHTML = `
+      <div style="color: #ff5252; font-weight: bold;">Şifre yanlış!</div>
+      <div class="popup-buttons">
+        <button onclick="sifreEkraniniYukle()">Tekrar Dene</button>
+      </div>`;
   }
 }
+
+window.onload = function() {
+  document.getElementById("sifreInput").focus();
+};
 </script>
 
 </body>
