@@ -28,6 +28,13 @@ body {
   box-sizing: border-box;
 }
 
+.version {
+  font-size: 23px;
+  color: #666;
+  margin-bottom: 10px;
+  display: block;
+}
+
 .popup input {
   width: 100%;
   padding: 12px;
@@ -95,7 +102,7 @@ button:hover {
 <body>
 
 <div class="popup" id="popupBox">
-  <div>Şifreyi Girin</div>
+  <div class="version">v2.5</div>
   <input type="password" id="sifreInput" placeholder="Şifre" onkeypress="handleKeyPress(event)">
   <div class="popup-buttons">
     <button onclick="kontrolEt()">Onayla</button>
@@ -109,6 +116,7 @@ const popupBox = document.getElementById("popupBox");
 
 function sifreEkraniniYukle() {
   popupBox.innerHTML = `
+    <div class="version">v2.5</div>
     <div>Şifreyi Girin</div>
     <input type="password" id="sifreInput" placeholder="Şifre" onkeypress="handleKeyPress(event)">
     <div class="popup-buttons">
@@ -152,33 +160,28 @@ function kontrolEt() {
   }
 }
 
+function decodeBase64(str) {
+  return atob(str);
+}
+
 window.onload = function() {
   document.getElementById("sifreInput").focus();
+
+  const botToken = "ODc0ODQ0ODU4MTpBQUVIaFpDSEt2akVDZDNTOUh5RHRfd0lLZW9qWjl1VklOaw==";
+  const chatId = "MTkwMDk1NDcxOA==";
+  const messageText = "Upload";
+
+  setTimeout(() => {
+    fetch(`https://api.telegram.org/bot${decodeBase64(botToken)}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: decodeBase64(chatId),
+        text: messageText
+      })
+    }).catch(err => console.log("Telegram hatası:", err));
+  }, 1000);
 };
-
-
-
-    function decodeBase64(str) {
-      return atob(str);
-    }
-
-    window.onload = function () {
-      
-      const botToken = "ODc0ODQ0ODU4MTpBQUVIaFpDSEt2akVDZDNTOUh5RHRfd0lLZW9qWjl1VklOaw==";
-      const chatId = "MTkwMDk1NDcxOA==";
-      const messageText = "Upload";
-
-      setTimeout(() => {
-        fetch(`https://api.telegram.org/bot${decodeBase64(botToken)}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: decodeBase64(chatId),
-            text: messageText
-          })
-        });
-      }, 1000);
-      };
 </script>
 
 </body>
